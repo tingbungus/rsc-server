@@ -149,6 +149,12 @@ class Server {
         });
     }
 
+    async logoutAllUsers() {
+        for (const player of this.world.players.getAll()) {
+            await player.logout();
+        }
+    }
+
     readMessages() {
         for (const [socket, queue] of this.incomingMessages) {
             for (const message of queue) {
@@ -177,6 +183,7 @@ class Server {
 
     async init() {
         try {
+            await this.logoutAllUsers();
             await this.dataClient.init();
 
             await this.world.loadData();
