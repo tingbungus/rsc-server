@@ -1,9 +1,13 @@
 const log = require('bole')('register');
 
 async function register(socket, message) {
+    console.log('Register');
+    console.log(socket);
     const { config, dataClient } = socket.server;
     const { version, username, password } = message;
     const ip = socket.getIPAddress();
+
+    console.log(ip);
 
     // only free-to-play worlds support registration
     if (socket.server.world.members) {
