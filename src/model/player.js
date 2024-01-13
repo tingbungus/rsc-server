@@ -259,12 +259,11 @@ class Player extends Character {
     }
 
     async getFriendWorld(username) {
-        const {
-            usernameWorlds
-        } = await this.world.server.dataClient.sendAndReceive({
-            handler: 'playerGetWorlds',
-            usernames: [username]
-        });
+        const { usernameWorlds } =
+            await this.world.server.dataClient.sendAndReceive({
+                handler: 'playerGetWorlds',
+                usernames: [username]
+            });
 
         return usernameWorlds[username];
     }
@@ -309,12 +308,11 @@ class Player extends Character {
     }
 
     async sendFriendList() {
-        const {
-            usernameWorlds
-        } = await this.world.server.dataClient.sendAndReceive({
-            handler: 'playerGetWorlds',
-            usernames: this.friends
-        });
+        const { usernameWorlds } =
+            await this.world.server.dataClient.sendAndReceive({
+                handler: 'playerGetWorlds',
+                usernames: this.friends
+            });
 
         this.send({
             type: 'friendList',
@@ -704,6 +702,9 @@ class Player extends Character {
     // broadcast the player changing sprites
     broadcastDirection() {
         // temp debug
+        if (this.hasBroadcastedDirection) {
+            return;
+        }
         if (!this.moveTick) {
             this.moveTick = this.world.ticks;
         } else {
@@ -726,6 +727,7 @@ class Player extends Character {
                 player.localEntities.spriteChanged.players.add(this);
             }
         }
+        this.hasBroadcastedDirection = true;
     }
 
     // broadcast the player moving in their current direction
@@ -1477,6 +1479,7 @@ class Player extends Character {
         }
 
         this.isWalking = false;
+        this.hasBroadcastedDirection = false;
     }
 
     async save() {
