@@ -88,7 +88,7 @@ class Player extends Character {
         this.fatigue = playerData.fatigue;
 
         // game settings
-        this.cameraAuto = playerData.cameraAuto;
+        this.cameraAuto = false;
         this.oneMouseButton = playerData.oneMouseButton;
         this.soundOn = playerData.soundOn;
 
